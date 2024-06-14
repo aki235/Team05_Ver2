@@ -197,7 +197,6 @@ def SearchSubjects(request):
     else:
         return JsonResponse({"error": "Invalid request method"}, status=400)
     
-
 # def ReserveSlotView(request):
 #     if request.method == "POST":
 #         data = json.loads(request.body)
@@ -218,6 +217,9 @@ def SearchSubjects(request):
 #             start_time=slot.start_time,
 #             end_time=slot.end_time
 #         )
+
+#         # 対応するAvailableSlotを削除
+#         slot.delete()
         
 #         return JsonResponse({"status": "success"})
 #     else:
@@ -235,6 +237,10 @@ def ReserveSlotView(request):
         # ログイン中のユーザーを取得
         learner = request.user
         
+        # ポイントの確認
+        if learner.user_point <= 0:
+            return JsonResponse({"error": "Not enough points"}, status=400)
+        
         # 予約を作成
         Schedule.objects.create(
             teacher=slot.teacher,
@@ -243,6 +249,12 @@ def ReserveSlotView(request):
             start_time=slot.start_time,
             end_time=slot.end_time
         )
+
+        # ポイントの加減
+        slot.teacher.user_point += 1
+        learner.user_point -= 1
+        slot.teacher.save()
+        learner.save()
 
         # 対応するAvailableSlotを削除
         slot.delete()

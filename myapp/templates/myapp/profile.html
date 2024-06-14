@@ -8,6 +8,7 @@
 <h1>プロフィール</h1>
 <p>ユーザー名: {{ user.username }}</p>
 <p>ユーザーID: {{ user.user_id }}</p>
+<p>ポイント: {{ user.user_point }}</p>
 <p>教える科目:</p>
 <ul>
     {% for subject in user.subjects_teach.all %}

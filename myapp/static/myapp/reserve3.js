@@ -1,6 +1,6 @@
 // CSRF対策
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN"
-axios.defaults.xsrfCookieName = "csrftoken"
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 let selectedSubject = null;
 
@@ -34,16 +34,18 @@ document.addEventListener('DOMContentLoaded', function () {
         slotLabelInterval: '01:00:00',
         eventClick: function(info) {
             // スロットをクリックしたときの処理
-            var slotId = info.event.id;
-            axios
-                .post("/reserve-slot/", { slot_id: slotId, subject_id: selectedSubject.id })
-                .then(response => {
-                    alert("予約が成立しました");
-                    calendar.refetchEvents(); // 予約後にカレンダーをリフレッシュ
-                })
-                .catch(() => {
-                    alert("予約に失敗しました");
-                });
+            if (confirm("予約を行いますか？(1ポイントを消費します)")) {
+                var slotId = info.event.id;
+                axios
+                    .post("/reserve-slot/", { slot_id: slotId, subject_id: selectedSubject.id })
+                    .then(response => {
+                        alert("予約が成立しました");
+                        calendar.refetchEvents(); // 予約後にカレンダーをリフレッシュ
+                    })
+                    .catch(() => {
+                        alert("予約に失敗しました");
+                    });
+            }
         }
     });
 

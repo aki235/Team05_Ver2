@@ -12,6 +12,7 @@ class Subject(models.Model):
 
 class CustomUser(AbstractUser):
     user_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    user_point = models.IntegerField(default=5)
     subjects_teach = models.ManyToManyField(Subject, related_name='teachers')
     subjects_learn = models.ManyToManyField(Subject, related_name='learners')
 
