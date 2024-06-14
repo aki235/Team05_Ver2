@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css" rel="stylesheet">
+    <style>
+        #calendar {
+            max-width: 900px;
+            margin: 40px auto; /* 中央に配置 */
+            padding: 0 10px;
+        }
+
+        .fc-button {
+            font-size: 16px; /* ボタンの大きさ */
+            padding: 10px 20px; /* ボタンの内側の余白 */
+        }
+
+        .points{
+            position: absolute:
+            top:10px;
+            right:10px;
+            font-size:20px;
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>ホーム画面です</h1>
+
+<div class="points">ポイント: {{ user_profile.points }}</div>
+
+{% if user.is_authenticated %}
+    こんにちは、<a href="{% url 'profile' %}">{{user.username}}</a>さん！
+    <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+    {% csrf_token %}
+    </form>
+    
+    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        ログアウト
+    </a>
+{% else %}
+    <a href="{% url 'login' %}">ログイン</a>
+{% endif %}
+<br>
+
+<a href="{% url 'reserve' %}">予約</a>
+<a href="{% url 'slots' %}">スロットの編集</a>
+<h2>Your Schedules</h2>
+
+<div id='calendar'></div>
+{% load static %}
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
+<script src="{% static 'myapp/main3.js' %}"></script>
+
+<ul>
+    {% for schedule in schedules %}
+        <li>{{ schedule.teacher.username }} teaches {{ schedule.learner.username }} - {{ schedule.subject.name }} from {{ schedule.start_time }} to {{ schedule.end_time }}</li>
+    {% endfor %}
+    {% if not schedules %}
+        <li>No schedules found.</li>
+    {% endif %}
+</ul>
+
+
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>プロフィール</title>
+</head>
+<body>
+<h1>プロフィール</h1>
+<p>ユーザー名: {{ user.username }}</p>
+<p>ユーザーID: {{ user.user_id }}</p>
+<p>教える科目:</p>
+<ul>
+    {% for subject in user.subjects_teach.all %}
+    <li>{{ subject.name }}</li>
+    {% endfor %}
+</ul>
+<p>学ぶ科目:</p>
+<ul>
+    {% for subject in user.subjects_learn.all %}
+    <li>{{ subject.name }}</li>
+    {% endfor %}
+</ul>
+
+<h2>教える科目を追加</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">アップロード</button>
+</form>
+
+{% for message in messages %}
+    <div>{{ message }}</div>
+{% endfor %}
+</body>
+</html>
