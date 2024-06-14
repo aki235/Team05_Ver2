@@ -6,7 +6,7 @@
 ### 画面
 
 
-## コマンドまとめ
+## 初期設定
 ### DBにkdbデータを登録する方法
 ターミナルで python manage.py load_subjects kdb.json
 
