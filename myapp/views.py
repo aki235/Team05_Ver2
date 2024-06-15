@@ -26,9 +26,39 @@ def HomeView(request):
 #     user = request.user
 #     return render(request, "myapp/profile.html", {'user': user})
 
-def ProfileView(request):
-    user = request.user
+# def ProfileView(request):
+#     user = request.user
+#     if request.method == 'POST':
+#         form = SubjectUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             csv_file = request.FILES['file']
+#             try:
+#                 decoded_file = csv_file.read().decode('utf-8').splitlines()
+#                 reader = csv.reader(decoded_file)
+#                 for row in reader:
+#                     subject_number = row[2]
+#                     try:
+#                         subject = Subject.objects.get(subject_number=subject_number)
+#                         user.subjects_teach.add(subject)
+#                         messages.success(request, f'Successfully added subject: {subject.name}')
+#                     except Subject.DoesNotExist:
+#                         messages.warning(request, f'Subject with number {subject_number} does not exist')
+#             except Exception as e:
+#                 messages.error(request, f'Error processing file: {e}')
+#             return redirect('profile')
+#     else:
+#         form = SubjectUploadForm()
+
+#     return render(request, "myapp/profile.html", {'user': user, 'form': form})
+
+def ProfileView(request, username):
+    profile_user = get_object_or_404(CustomUser, username=username)
+    
     if request.method == 'POST':
+        if request.user != profile_user:
+            messages.error(request, 'You cannot edit another user\'s profile.')
+            return redirect('profile', username=username)
+        
         form = SubjectUploadForm(request.POST, request.FILES)
         if form.is_valid():
             csv_file = request.FILES['file']
@@ -39,17 +69,17 @@ def ProfileView(request):
                     subject_number = row[2]
                     try:
                         subject = Subject.objects.get(subject_number=subject_number)
-                        user.subjects_teach.add(subject)
+                        profile_user.subjects_teach.add(subject)
                         messages.success(request, f'Successfully added subject: {subject.name}')
                     except Subject.DoesNotExist:
                         messages.warning(request, f'Subject with number {subject_number} does not exist')
             except Exception as e:
                 messages.error(request, f'Error processing file: {e}')
-            return redirect('profile')
+            return redirect('profile', username=username)
     else:
         form = SubjectUploadForm()
 
-    return render(request, "myapp/profile.html", {'user': user, 'form': form})
+    return render(request, "myapp/profile.html", {'profile_user': profile_user, 'form': form})
 
 def SlotsView(request):
     get_token(request)

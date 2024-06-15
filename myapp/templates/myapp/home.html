@@ -16,11 +16,11 @@
             padding: 10px 20px; /* ボタンの内側の余白 */
         }
 
-        .points{
-            position: absolute:
-            top:10px;
-            right:10px;
-            font-size:20px;
+        .points {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
             background: #f0f0f0;
             padding: 5px 10px;
             border-radius: 5px;
@@ -33,9 +33,9 @@
 <div class="points">ポイント: {{ user_profile.points }}</div>
 
 {% if user.is_authenticated %}
-    こんにちは、<a href="{% url 'profile' %}">{{user.username}}</a>さん！
+    こんにちは、<a href="{% url 'profile' user.username %}">{{ user.username }}</a>さん！
     <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
-    {% csrf_token %}
+        {% csrf_token %}
     </form>
     
     <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -64,7 +64,6 @@
         <li>No schedules found.</li>
     {% endif %}
 </ul>
-
 
 </body>
 </html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
@@ -33,4 +33,40 @@
     <div>{{ message }}</div>
 {% endfor %}
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ profile_user.username }}'s Profile</title>
+</head>
+<body>
+    <h1>{{ profile_user.username }}'s Profile</h1>
+    
+    {% if request.user == profile_user %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Upload Subjects</button>
+        </form>
+    {% else %}
+        <p>You are viewing {{ profile_user.username }}'s profile.</p>
+    {% endif %}
+
+    <p>Points: {{ profile_user.user_point }}</p>
+    <p>Subjects Teaching:</p>
+    <ul>
+        {% for subject in profile_user.subjects_teach.all %}
+            <li>{{ subject.name }}</li>
+        {% endfor %}
+    </ul>
+    <p>Subjects Learning:</p>
+    <ul>
+        {% for subject in profile_user.subjects_learn.all %}
+            <li>{{ subject.name }}</li>
+        {% endfor %}
+    </ul>
+</body>
 </html>
+
