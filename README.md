@@ -7,11 +7,14 @@
 
 
 ## 初期設定
+### DBの作成
+python manage.py migrate  
+
 ### DBにkdbデータを登録する方法
 ターミナルで python manage.py load_subjects kdb.json
 
 ### ユーザーを作成する方法
 python manage.py createsuperuser
 
-### ユーザーの科目データ(教えられる科目)を追加する方法
+### ユーザーの科目データ(教える科目)を追加する方法
 サイト内のプロフィールからアップロード可能
