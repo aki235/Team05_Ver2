@@ -3,9 +3,46 @@
 <head>
     <meta charset='utf-8' />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css">
+    <style>
+        body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.home-button {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.home-button:hover {
+    background-color: #0056b3;
+}
+
+.content {
+    padding: 20px;
+}
+
+        </style>
+</head>
 </head>
 
 <body>
+    <div>
+        
+        <div class="header">
+            <a href="{% url 'home' %}" class="home-button">ホーム</a>
+        </div>
+        <div class="content">
+            
+        </div>
+    </div>
     <div id='calendar'></div>
 
     {% load static %}

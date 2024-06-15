@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
+{% load static %}
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.css" rel="stylesheet">
+    <link href="{% static 'myapp/css/common.css' %}" rel="stylesheet">
     <style>
         #calendar {
             max-width: 900px;
@@ -15,22 +17,62 @@
             font-size: 16px; /* ボタンの大きさ */
             padding: 10px 20px; /* ボタンの内側の余白 */
         }
+        .header {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column; /* 要素を縦に並べる */
+    align-items: flex-end; /* 要素を右揃えにする */
+    background: #f0f0f0;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
-        .points {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            background: #f0f0f0;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
+.points {
+    font-size: 20px;
+    margin-top: 10px; /* ログアウトボタンとの間にスペースを追加 */
+    text-align: left;
+}
+
+.logout {
+    font-size: 20px;
+    padding: 5px 10px;
+    background-color: #007BFF; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインタにする */
+    text-align: center; /* 文字を中央揃えにする */
+}
+
+.logout:hover {
+    background-color: #0056b3; /* ホバー時の背景色 */
+}
+
+
+        
+
+
     </style>
 </head>
-<body>
-<h1>ホーム画面です</h1>
+<header>
+    
+    <h1>Twin:teConnection</h1>
+<p>筑波大生向けマッチングアプリ</p> 
 
-<div class="points">ポイント: {{ user_profile.points }}</div>
+
+<body>
+    <div class="header">
+        <button class="logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            ログアウト
+        </button>
+        <div class="points">
+            ポイント: {{ user_profile.points }}
+        </div>
+    </div>
+    
+    
 
 {% if user.is_authenticated %}
     こんにちは、<a href="{% url 'profile' user.username %}">{{ user.username }}</a>さん！
@@ -38,20 +80,27 @@
         {% csrf_token %}
     </form>
     
-    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        ログアウト
-    </a>
+    
 {% else %}
     <a href="{% url 'login' %}">ログイン</a>
 {% endif %}
 <br>
 
-<a href="{% url 'reserve' %}">予約</a>
-<a href="{% url 'slots' %}">スロットの編集</a>
+<div>
+    
+    <ul>
+      <li style="display: inline-block"><a href="{% url 'reserve' %}"><img src="{% static 'myapp/image/reservation.jpeg' %}" alt="予約" width="240px"><br>予約</a></li>
+      <li style="display: inline-block"><a href="{% url 'profile' user.username %}"><img src="{% static 'myapp/image/system.jpeg' %}" alt="プロフィール" width="240px"><br>プロフィール</a></li>
+      <li style="display: inline-block"><a href="{% url 'slots' %}"><img src="{% static 'myapp/image/profile.jpeg' %}" alt="ログイン" width="240px"><br>スロットの編集</a></li> 
+        </ul>
+        
+        
+        </div>
+</div>
 <h2>Your Schedules</h2>
 
 <div id='calendar'></div>
-{% load static %}
+<!-- {% load static %} -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.2/main.min.js"></script>
 <script src="{% static 'myapp/main3.js' %}"></script>
@@ -64,6 +113,28 @@
         <li>No schedules found.</li>
     {% endif %}
 </ul>
-
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const links = document.querySelectorAll('a[href="home.html"]');
+      
+      links.forEach(link => {
+        link.addEventListener('click', function(event) {
+          event.preventDefault();
+          document.body.classList.add('fade-out');
+          
+          setTimeout(() => {
+            window.location.href = this.href;
+          }, 1500); // Duration of the fade-out animation
+        });
+      });
+    
+      document.body.classList.add('fade-in');
+    });
+    </script>
+    
+    <footer>
+        <p>&copy; 5班　文理融合ｓ</p>
+    </footer>
 </body>
+    
 </html>

@@ -3,10 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>ログイン</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+        display:flex;
+        flex-flow: column;
+        justify-content:space-between;
+        align-items: center;
+        
+    }
+    
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+    
+    form {
+        background: #fff;
+        padding: 20px;
+        margin-top: 10%;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+    }
+    
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #2980B9;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    
+    button:hover {
+        background-color: #4a97ca;
+    }
+    </style>
 </head>
 <body>
-<h1>ログイン</h1>
+
+    <!DOCTYPE html>
+    <html lang="en">
+    
+        
 <form method="post" action="{% url 'login' %}">
+    <h1>ログイン</h1>
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">ログイン</button>
