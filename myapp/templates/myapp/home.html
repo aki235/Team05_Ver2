@@ -67,9 +67,9 @@
         <button class="logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             ログアウト
         </button>
-        <div class="points">
-            ポイント: {{ user_profile.points }}
-        </div>
+        <!-- <div class="points">
+            ポイント: {{ user.points }}
+        </div> -->
     </div>
     
     
@@ -89,9 +89,9 @@
 <div>
     
     <ul>
+      <li style="display: inline-block"><a href="{% url 'profile' user.username %}"><img src="{% static 'myapp/image/profile.jpeg' %}" alt="プロフィール" width="240px"><br>プロフィール</a></li>
       <li style="display: inline-block"><a href="{% url 'reserve' %}"><img src="{% static 'myapp/image/reservation.jpeg' %}" alt="予約" width="240px"><br>予約</a></li>
-      <li style="display: inline-block"><a href="{% url 'profile' user.username %}"><img src="{% static 'myapp/image/system.jpeg' %}" alt="プロフィール" width="240px"><br>プロフィール</a></li>
-      <li style="display: inline-block"><a href="{% url 'slots' %}"><img src="{% static 'myapp/image/profile.jpeg' %}" alt="ログイン" width="240px"><br>スロットの編集</a></li> 
+      <li style="display: inline-block"><a href="{% url 'slots' %}"><img src="{% static 'myapp/image/system.jpeg' %}" alt="スロット" width="240px"><br>スロットの編集</a></li> 
         </ul>
         
         
